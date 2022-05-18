@@ -1,0 +1,14 @@
+{% extends 'brainstorm/base.html' %} {% block content %} 
+<div class="container">
+    
+    {% if error %} {{ error }} <br><br> {% endif %}
+
+    <h1>Sign Up!</h1>
+    <form action="{% url 'signup' %}" method="post">
+        {% csrf_token %} Username:
+        <br><input type="text" name="username"><br> Password:
+        <br><input type="password" name="password"><br> Confirm Password:<br><input type="password" name="pswd_confirm"><br>
+        <input class="btn btn-primary" type="submit" value="Sign Up!">
+    </form>
+</div>
+{% endblock content %}
