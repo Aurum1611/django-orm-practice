@@ -37,6 +37,10 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         else:
             return Response({'error': 'parameters not recieved'})
+        
+        
+        def saved_orms():
+            UserProfile.objects.filter(name__contains='j')
 
 
 class CollegeViewSet(viewsets.ModelViewSet):
