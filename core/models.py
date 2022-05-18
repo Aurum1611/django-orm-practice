@@ -40,6 +40,7 @@ class UserProfile(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     college = models.ForeignKey(College, on_delete=models.CASCADE)
+    age = models.PositiveIntegerField()
 
     def __str__(self) -> str:
         return self.name
