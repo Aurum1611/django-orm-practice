@@ -1,7 +1,7 @@
 from rest_framework import viewsets
-from .models import UserProfile, College, State, City
+from .models import UserProfile, College, State, City, ElectiveSubject
 from .serializers import UserProfileSerializer, CollegeSerializer, \
-    CitySerializer, StateSerializer
+    CitySerializer, StateSerializer, ElectiveSerializer
 from django.db.models import Q, F
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -52,3 +52,8 @@ class StateViewSet(viewsets.ModelViewSet):
 class CityViewSet(viewsets.ModelViewSet):
     queryset = City.objects.all()
     serializer_class = StateSerializer
+
+
+class ElectiveViewSet(viewsets.ModelViewSet):
+    queryset = ElectiveSubject.objects.all()
+    serializer_class = ElectiveSerializer

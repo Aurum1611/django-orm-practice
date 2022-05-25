@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models import State, City, College, UserProfile
+from .models import State, City, College, UserProfile, ElectiveSubject
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ('id', 'name', 'dob', 'email', 'phone_num', 'user', 
-                  'address', 'city', 'state', 'college', 'age')
+                  'address', 'city', 'state', 'college', 'age', 'elective')
 
 
 class CollegeSerializer(serializers.ModelSerializer):
@@ -25,3 +25,9 @@ class StateSerializer(serializers.ModelSerializer):
     class Meta:
         model = State
         fields = ('id', 'name', 'code')
+
+
+class ElectiveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ElectiveSubject
+        fields = ('id', 'name')
