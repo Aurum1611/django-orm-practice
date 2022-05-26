@@ -1,4 +1,4 @@
-from core.models import UserProfile, City, State, College
+from core.models import UserProfile, City, State, College, ElectiveSubject
 from django.db.models import Q, F
 from django.db.models.aggregates import Sum, Max, Min, Count, Avg
 
@@ -77,3 +77,14 @@ UserProfile.objects.filter(Q(age__gt=25) & ~ Q(college=4))
 College.objects.extra(select={'CollegeName': 'name', 'PhoneNum': 'phone_num'}).values(
     'CollegeName', 'PhoneNum')
 # <QuerySet [{'CollegeName': 'Goa University', 'PhoneNum': '8457938458'}, {'CollegeName': 'Mumbai University', 'PhoneNum': '8543213256'}]>
+
+# Queries for Many-to-Many field
+user = UserProfile.objects.get(id=3)
+# <UserProfile: Dwayne Pietro Salazar>
+user.elective.all()
+# <QuerySet [<ElectiveSubject: Computer Science>, <ElectiveSubject: Human Machine Interaction>, <ElectiveSubject: Distributed Operating Systems>, <ElectiveSubject: Web Technologies>, <ElectiveSubject: Motion Picture Direction>, <ElectiveSubject: Emotional Health>, <ElectiveSubject: Evolutionary Algorithms>, <ElectiveSubject: Data Structures and Algorithms>]>
+
+elective = ElectiveSubject.objects.get(name='Human Machine Interaction')
+# <ElectiveSubject: Human Machine Interaction>
+UserProfile.objects.filter(elective=elective.id)           
+# <QuerySet [<UserProfile: Steve Ditko>, <UserProfile: Dwayne Pietro Salazar>, <UserProfile: Jasmine Parker>, <UserProfile: Josh Hernandez>]>
