@@ -88,3 +88,21 @@ elective = ElectiveSubject.objects.get(name='Human Machine Interaction')
 # <ElectiveSubject: Human Machine Interaction>
 UserProfile.objects.filter(elective=elective.id)           
 # <QuerySet [<UserProfile: Steve Ditko>, <UserProfile: Dwayne Pietro Salazar>, <UserProfile: Jasmine Parker>, <UserProfile: Josh Hernandez>]>
+
+electives = ElectiveSubject.objects.filter(Q(name='Computer Science') | Q(id__gt=5) & ~ Q(id__gte=10))                                                                                            
+# <QuerySet [<ElectiveSubject: Computer Science>, <ElectiveSubject: Object Oriented Programming>, <ElectiveSubject: Animal Husbandry>, <ElectiveSubject: Motion Picture Direction>, <ElectiveSubject: Modern Fashion Design>]>
+eids = [e.id for e in electives]
+# [1, 6, 7, 8, 9]
+UserProfile.objects.filter(elective__in=eids).aggregate(Count('name'))
+# {'name__count': 9}
+UserProfile.objects.filter(elective__in=eids)                         
+# <QuerySet [<UserProfile: Steve Ditko>, <UserProfile: Dwayne Pietro Salazar>, <UserProfile: Jasmine Parker>, <UserProfile: Sajna Mehndi>, <UserProfile: Jasmine Parker>, <UserProfile: Sajna Mehndi>, <UserProfile: Dwayne Pietro Salazar>, <UserProfile: Jasmine Parker>, <UserProfile: Josh Hernandez>]>
+
+objs = UserProfile.objects.values('elective').annotate(Count('id'))
+# <QuerySet [{'elective': 1, 'id__count': 2}, {'elective': 3, 'id__count': 4}, {'elective': 4, 'id__count': 5}, {'elective': 5, 'id__count': 4}, {'elective': 6, 'id__count': 1}, {'elective': 7, 'id__count': 2}, {'elective': 8, 'id__count': 3}, {'elective': 9, 'id__count': 1}, {'elective': 10, 'id__count': 3}, {'elective': 11, 'id__count': 1}, {'elective': 12, 'id__count': 2}, {'elective': 13, 'id__count': 2}, {'elective': 14, 'id__count': 2}]>
+max_el = 0
+for e in objs:
+    if e['id__count'] > max_el:
+        max_el = e['elective']
+# max_el
+# 4
